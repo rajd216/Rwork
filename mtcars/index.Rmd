@@ -1,0 +1,59 @@
+---
+title: "index"
+author: "RajD"
+date: "December 27, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+```
+
+#### Explore dataset- mtcars
+
+```{r cars}
+data(cars)
+# View(mtcars)
+head(mtcars)
+tail(mtcars)
+str(mtcars)
+#mtcars$mpg
+#table(mtcars$mpg)
+```
+
+#### Including Plots
+
+```{r boxplot}
+ggplot(mtcars, aes(x=factor(am), y=mpg)) + geom_boxplot()
+# Why do we need to turn am into a factor: because ggplot2 prefers the x-axis of a boxplot to be a factor- that is, a variable that can take one of a finite number of categories as its values- rather than a numeric variable like 0 or 1. Then we put the type of graph, which in this case is geom_boxplot
+```
+
+#### Compare 2 variables
+t-test examines whether a numeric variable differed between two categories.
+
+```{r compare}
+tTest = t.test(mpg ~ am, data=mtcars)
+tTest
+```
+
+#### Correlation
+we might be interested in testing whether a car's weight affects fuel efficiency.
+
+```{r correlation}
+ggplot(mtcars, aes(x=wt, y=mpg)) + geom_point()
+```
+
+you can see a negative relationship: a higher weight means a higher miles per gallon and therefore a lower fuel efficiency in. This makes intuitive sense: a heavier car requires more fuel.
+
+
+The simplest way to test for a relationship between two variables is with a correlation test. This can be done with the cor.test function:
+
+```{r}
+corrTest = cor.test(mtcars$mpg, mtcars$wt)
+corrTest
+```
+
+The smaller the p-value, the more significant the correlation, so here we can be very confident that a correlation exists.
+
+

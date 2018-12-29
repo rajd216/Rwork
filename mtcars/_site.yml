@@ -1,0 +1,11 @@
+name: "Regressions"
+output_dir: "."
+navbar:
+  title: "Regression Types"
+  left:
+  - text: "Home"
+    href: index.html
+  - text: "Simple Linear Regression"
+    href: linear_regr.html
+  - text: "Multiple Linear Regression"
+    href: multi_regr.html

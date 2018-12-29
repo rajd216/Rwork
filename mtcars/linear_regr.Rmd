@@ -1,0 +1,54 @@
+---
+title: "Linear Regression"
+author: "RajD"
+date: "December 27, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+```
+
+#### Fitting the Line and looking at summary, Also looking at co-efficients.
+
+```{r slrFit}
+regr = lm(mpg ~ wt, mtcars)
+summary(regr)
+
+coeff = coef(summary(regr))
+coeff
+
+coeff[ ,1]
+```
+
+#### Prediction using predict() function
+
+```{r prediction}
+predict(regr)
+```
+
+But these predictions aren't that useful to us, as we already have the actual gas mileage of each.
+
+What if we wanted to predict the gas mileage of a car that has a weight of, say, 4500 pounds?
+
+```{r}
+37.2851 + (-5.3445) * 4.5
+```
+
+This predicts a fuel efficiency of 13.2 miles per gallon for 4.5 thousands of pounds.
+
+There is a shortcut for producing this value from the fit, using the predict function. First we create a data frame containing the predictors we wish to use. In this case, imagine we had a new car that weighed 4500 pounds:
+
+```{r new data}
+newcars = data.frame(wt = c(4.5, 4.2, 4.1, 4.32, 4.4, 4.65, 5.5, 5.2))
+predict(regr, newcars)
+```
+
+#### Plotting
+
+```{r}
+ggplot(mtcars, aes(x = wt, y = mpg)) + geom_point() + geom_smooth(method = "lm")
+```
+
+The grey area shown is the uncertainty in the fit: it's a 95% confidence interval of where the true trend line could be.

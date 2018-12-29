@@ -1,0 +1,64 @@
+---
+title: "Multiple Linear Regression"
+author: "RajD"
+date: "December 27, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+```
+
+#### Multiple Linear Regression
+what if you have more than one predictor variable? For instance, let's say you want to measure the effect of not just weight, but also the number of cylinders, and the volume, or displacement, of the car? We can get a sense of the trend by adding those two predictors to our visualization using color and size. Here we put the number of cylinders (cyl) as the color and the volume, or displacement (disp) as the size.:
+
+```{r plot}
+ggplot(mtcars, aes(x=wt, y=mpg, col=cyl, size=disp)) + geom_point()
+```
+
+It's true that cars with higher volume, or larger points, have a lower fuel efficiency- but they also have a higher weight.
+
+What combination of predictors will best predict fuel efficiency? Which predictors increase our accuracy by a statistically significant amount? 
+
+We do this with a multiple linear regression, where we provide multiple terms in the right side of the linear regression formula.
+
+#### Fitting the line
+
+```{r}
+mregr = lm(mpg ~ wt + disp + cyl, data=mtcars)
+summary(mregr)
+```
+
+coefficient table now has four rows: one for the intercept and one for all three of our predictors. Each of these still contains the estimate of the coefficient, or slope, for that predictor.
+
+Notice that the p-values for weight and the number of cylinders are both significant. We can see the significance rating based on the number of stars, where ** means it's in between .001 and .01.
+
+#### Co-efficients.
+
+```{r}
+mcoff = coef(summary(mregr))
+mcoff[ ,1]
+mcoff[, 4]
+```
+
+#### Prediction.
+We can also predict the gas mileage of each car based on this model, by doing
+
+```{r}
+predict(mregr)
+```
+
+Or we can do it for a new car: all we have to do is give it the weight, displacement and number of cylinders of our hypothetical car.
+
+```{r}
+newcar = data.frame(wt = 4.5, disp = 300, cyl = 8)
+newcar
+```
+
+```{r}
+predict(mregr, newcar)
+```
+
+
+
